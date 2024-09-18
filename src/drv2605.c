@@ -1,20 +1,13 @@
-/*
- * Copyright (c) 2022 The ZMK Contributors
- *
- * SPDX-License-Identifier: MIT
- */
-
 #define DT_DRV_COMPAT ti_drv2605
 
 #include <zephyr/kernel.h>
 #include <zephyr/device.h>
 #include <zephyr/init.h>
 #include <zephyr/sys/byteorder.h>
-#include <zephyr/input/input.h>
 #include <zephyr/drivers/gpio.h>
 #include <zephyr/drivers/i2c.h>
 
-#include <zmk/drivers/drv2605.h>
+#include <nrf/drivers/drv2605.h>
 
 #include <zephyr/logging/log.h>
 LOG_MODULE_REGISTER(drv2605, CONFIG_DRV2605_LOG_LEVEL);
@@ -81,7 +74,7 @@ static int set_standby(const struct device *dev, bool standby) {
     const struct drv2605_config *config = dev->config;
     int err = 0;
     if (!data->standby && standby) {
-        LOG_DBG("Setting MODE to 0x%x", DRV2605_MODE_STANDBY);
+        LOG_DBG("Setting MODE to 0x%lx", (unsigned long)DRV2605_MODE_STANDBY);
         err = i2c_reg_write_byte_dt(&config->i2c_bus,
                                     DRV2605_REG_MODE, DRV2605_MODE_STANDBY);
         if (err) {
@@ -372,10 +365,11 @@ static void drv2605_standby_cb(struct k_work *work) {
 static int drv2605_init(const struct device *dev) {
     struct drv2605_data *data = dev->data;
     const struct drv2605_config *config = dev->config;
-    int err;
+    int err = 0;
 
     // init device pointer
     data->dev = dev;
+    data->ready = false;
 
     if (!device_is_ready(config->i2c_bus.bus)) {
         LOG_WRN("i2c bus not ready!");
@@ -466,3 +460,8 @@ static const struct sensor_driver_api drv2605_driver_api = {
                           CONFIG_SENSOR_INIT_PRIORITY, &drv2605_driver_api);
 
 DT_INST_FOREACH_STATUS_OKAY(DRV2605_DEFINE)
+
+int drv2605_is_ready(const struct device *dev) {
+    struct drv2605_data *data = dev->data;
+    return data->ready ? 1 : 0;
+}

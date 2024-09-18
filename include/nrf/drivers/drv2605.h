@@ -95,6 +95,13 @@ enum drv2605_attribute {
 
 };
 
+/** @brief Check if the DRV2605 driver is ready.
+ *
+ *  @param dev The device structure for the DRV2605 driver.
+ *  @return 1 if ready, 0 otherwise.
+ */
+int drv2605_is_ready(const struct device *dev);
+
 #ifdef __cplusplus
 }
 #endif

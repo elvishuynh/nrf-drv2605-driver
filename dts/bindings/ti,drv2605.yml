@@ -1,6 +1,3 @@
-# Copyright (c) 2024 The ZMK Contributors
-# SPDX-License-Identifier: MIT
-
 description: |
   Sensor driver for the DRV2605 Haptic Feedback Motor Driver
 

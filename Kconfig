@@ -1,11 +1,8 @@
-# Copyright (c) 2024 The ZMK Contributors
-# SPDX-License-Identifier: MIT
-
 DT_COMPAT_DRV2605 := ti,drv2605
 
-config DRV2605
+menuconfig DRV2605
   bool "DRV2605 haptic motor driver"
-  default $(dt_compat_enabled,$(DT_COMPAT_DRV2605))
+  default y
   select I2C
   help
       Enable DRV2605 haptic motor driver.
