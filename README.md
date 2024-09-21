@@ -2,6 +2,8 @@
 
 This driver integrates support for the Texas Instruments DRV2605 Haptic Feedback Motor Driver into the nRF SDK 2.7.0. Due to the the nRF Connect SDK not utilizing the latest version of upstream Zephyr, it lacks native support for the DRV2605. The driver is adapted from [badjeff's implementation for ZMK](https://github.com/badjeff/zmk-drv2605-driver.git) and made compatible with the Zephyr build system in nRF SDK v2.7.0.
 
+Sample application can be seen [here](https://github.com/elvishuynh/nrf-haptics.git)
+
 ## Features
 
 * Supports ERM (Eccentric Rotating Mass) and LRA (Linear Resonant Actuator) motor control
